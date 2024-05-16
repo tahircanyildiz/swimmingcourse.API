@@ -47,14 +47,13 @@ namespace UserManagement.Presentation.Controllers
                 teacher = _userManager.Users.SingleOrDefault(u => u.Id == course.teacherId),
                 day = course.day,
                 hour = course.hour,
-                // Diğer kullanıcı özelliklerini ekleyebilirsiniz
             }).ToList();
 
             foreach (var courseViewModel in transformedAllCourses)
             {
                 if (courseViewModel.teacher == null)
                 {
-                    // Öğretmen bulunamadı, uygun bir şekilde ele alınabilir
+                    // Öğretmen bulunamadı
                 }
             }
 

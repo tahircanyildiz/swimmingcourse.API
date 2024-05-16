@@ -20,7 +20,6 @@ namespace UserManagement.Persistence.context
         public DbSet<CourseEntity> Courses { get; set; }
 
 
-        // Bir değişiklik yapıldığı zaman oluşturulma veya güncellenme zamanını otomatik olarak oluşturduğumuz yer.
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var datas = ChangeTracker.Entries<ApplicationUser>();

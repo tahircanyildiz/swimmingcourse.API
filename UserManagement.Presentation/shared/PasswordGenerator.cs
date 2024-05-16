@@ -12,18 +12,17 @@
 
             Random random = new Random();
 
-            // En az bir küçük harf, bir büyük harf, bir rakam ve bir noktalama işareti içeren
+          
             string password = $"{GetRandomChar(lowercaseChars, random)}" +
                               $"{GetRandomChar(uppercaseChars, random)}" +
                               $"{GetRandomChar(digitChars, random)}";
 
-            // Geri kalan karakterleri ekleyin
+            
             for (int i = 4; i < 8; i++)
             {
                 password += GetRandomChar(allChars, random);
             }
-
-            // Karıştırın
+           
             password = new string(password.ToCharArray().OrderBy(c => Guid.NewGuid()).ToArray());
 
             return password;
