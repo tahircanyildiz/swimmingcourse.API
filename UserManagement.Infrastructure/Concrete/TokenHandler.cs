@@ -20,26 +20,22 @@ namespace Blog.Infrastructure.Concrete
         {
             Application.DTOs.Token token = new();
 
-            // SecurityKey in simetirğini alıyoruz
             SymmetricSecurityKey symSecurityKey = new(Encoding.UTF8.GetBytes(securityKey));
 
-            //Şifrelenmiş Kimliği Oluşturuyoruz
             SigningCredentials signingCredentials = new(symSecurityKey, SecurityAlgorithms.HmacSha256);
 
-            //oluşturulacak Token ayarlarını veriyoruz
             token.Expiration = DateTime.UtcNow.AddMinutes(minute);
 
             JwtSecurityToken securityToken = new(
                 audience: Audience,
                 issuer: Issuer,
                 expires: token.Expiration,
-                notBefore: DateTime.UtcNow, // burada token oluştulduğu anda ömrü başlasın diyoruz
+                notBefore: DateTime.UtcNow, 
                 signingCredentials: signingCredentials,
                 claims: new List<Claim> { new(ClaimTypes.Role, role)}
                 
                 ) ;
 
-            //Token oluşturucu sınıfından bir örnek alalım
             JwtSecurityTokenHandler tokenHandler = new();
             token.AccessToken = tokenHandler.WriteToken(securityToken);
 

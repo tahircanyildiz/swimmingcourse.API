@@ -27,7 +27,6 @@ namespace UserManagement.Persistence.concrete
             var query = Table.AsQueryable();
             if (!tracking)
             {
-                //asnotracking i kullanma sebebi; üstünde bir değişiklik yapılmayacak dataların gereksiz yere kontrol edilmemesi için.
                 query = query.AsNoTracking();
             }
             return query;

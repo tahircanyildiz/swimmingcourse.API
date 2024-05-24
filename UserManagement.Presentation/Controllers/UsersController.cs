@@ -43,7 +43,6 @@ namespace UserManagement.Presentation.Controllers
                     image = user.image,
                     email = user.Email,
                     phoneNumber = user.PhoneNumber,
-                    // Diğer kullanıcı özelliklerini ekleyebilirsiniz
                 }).ToList();
 
                 return Ok(userViewModels);
@@ -67,7 +66,6 @@ namespace UserManagement.Presentation.Controllers
                     image = user.image,
                     email = user.Email,
                     phoneNumber = user.PhoneNumber,
-                    // Diğer kullanıcı özelliklerini ekleyebilirsiniz
                 }).ToList();
 
                 return Ok(userViewModels);
@@ -85,12 +83,11 @@ namespace UserManagement.Presentation.Controllers
             {
                 var users = _userManager.Users.Where(p => p.IsDeleted == false).ToList();
 
-                var studentUsers = new List<GetUsersViewModel>();// _userManager.GetRolesAsync() yöntemini kullanarak her kullanıcının rollerini alın
+                var studentUsers = new List<GetUsersViewModel>();
                 foreach (var user in users)
                 {
                     var roles = await _userManager.GetRolesAsync(user);
 
-                    // Kullanıcının rolleri arasında "student" rolü varsa, bu kullanıcıyı listeye ekleyin
                     if (roles.Contains("student"))
                     {
                         var userViewModel = new GetUsersViewModel
@@ -100,7 +97,6 @@ namespace UserManagement.Presentation.Controllers
                             email = user.Email,
                             phoneNumber = user.PhoneNumber,
                             field = user.field
-                            // Diğer kullanıcı özelliklerini ekleyebilirsiniz
                         };
                         studentUsers.Add(userViewModel);
                     }
@@ -121,12 +117,11 @@ namespace UserManagement.Presentation.Controllers
             {
                 var users = _userManager.Users.Where(p => p.IsDeleted == false).ToList();
 
-                var studentUsers = new List<GetUsersViewModel>();// _userManager.GetRolesAsync() yöntemini kullanarak her kullanıcının rollerini alın
+                var studentUsers = new List<GetUsersViewModel>();
                 foreach (var user in users)
                 {
                     var roles = await _userManager.GetRolesAsync(user);
 
-                    // Kullanıcının rolleri arasında "student" rolü varsa, bu kullanıcıyı listeye ekleyin
                     if (roles.Contains("teacher"))
                     {
                         var userViewModel = new GetUsersViewModel
@@ -137,7 +132,6 @@ namespace UserManagement.Presentation.Controllers
                             email = user.Email,
                             phoneNumber = user.PhoneNumber,
                             field = user.field
-                            // Diğer kullanıcı özelliklerini ekleyebilirsiniz
                         };
                         studentUsers.Add(userViewModel);
                     }
@@ -168,7 +162,6 @@ namespace UserManagement.Presentation.Controllers
                         email = user.Email,
                         phoneNumber = user.PhoneNumber,
 
-                        // Diğer kullanıcı özelliklerini ekleyebilirsiniz
                     }).ToList();
 
 
@@ -207,7 +200,6 @@ namespace UserManagement.Presentation.Controllers
                 {
                     var roles = await _userManager.GetRolesAsync(user);
 
-                    // Kullanıcının rolleri arasında "student" rolü varsa, bu kullanıcıyı listeye ekleyin
                     if (roles.Contains("student"))
                     {
                         var userViewModel = new GetUsersViewModel
@@ -217,7 +209,6 @@ namespace UserManagement.Presentation.Controllers
                             email = user.Email,
                             phoneNumber = user.PhoneNumber,
                             field = user.field
-                            // Diğer kullanıcı özelliklerini ekleyebilirsiniz
                         };
                         filteredStudents.Add(userViewModel);
                     }
@@ -251,7 +242,6 @@ namespace UserManagement.Presentation.Controllers
                 {
                     var roles = await _userManager.GetRolesAsync(user);
 
-                    // Kullanıcının rolleri arasında "student" rolü varsa, bu kullanıcıyı listeye ekleyin
                     if (roles.Contains("teacher"))
                     {
                         var userViewModel = new GetUsersViewModel
@@ -261,7 +251,6 @@ namespace UserManagement.Presentation.Controllers
                             email = user.Email,
                             phoneNumber = user.PhoneNumber,
                             field = user.field
-                            // Diğer kullanıcı özelliklerini ekleyebilirsiniz
                         };
                         filteredTeachers.Add(userViewModel);
                     }
@@ -296,7 +285,6 @@ namespace UserManagement.Presentation.Controllers
                 IdentityResult result = await _userManager.CreateAsync(user, model.password);
                 if (result.Succeeded)
                 {
-                    // Kullanıcıyı "student" role atama
                     await _userManager.AddToRoleAsync(user, "student");
                     return Ok("Başarılı");
                 }
@@ -329,7 +317,6 @@ namespace UserManagement.Presentation.Controllers
                 IdentityResult result = await _userManager.CreateAsync(user, model.password);
                 if (result.Succeeded)
                 {
-                    // Kullanıcıyı "student" role atama
                     await _userManager.AddToRoleAsync(user, "teacher");
                     return Ok("Başarılı");
                 }
@@ -362,7 +349,6 @@ namespace UserManagement.Presentation.Controllers
 
             if (result.Succeeded)
             {
-                // Kullanıcıyı "admin" role atama
                 await _userManager.AddToRoleAsync(user, "Admin");
                 return Ok("Başarılı");
             }
@@ -411,7 +397,6 @@ namespace UserManagement.Presentation.Controllers
 
             bool result = await _userManager.CheckPasswordAsync(user, model.password);
 
-            // burada giriş yapan kullanıcıdan gelen bilgiler ile hangi rolde olduğunu bulup ona göre token üretmem gerek
             var roles = (await _userManager.GetRolesAsync(user)).ToList();
             var role = roles.FirstOrDefault();
 
@@ -507,7 +492,6 @@ namespace UserManagement.Presentation.Controllers
                 return NotFound("User not found");
             }
 
-            // Kullanıcının şifresini güncellemek istiyorsanız
             if (!string.IsNullOrEmpty(model.newPassword))
             {
                 var passwordChangeResult = await _userManager.ChangePasswordAsync(user, model.currentPassword, model.newPassword);
